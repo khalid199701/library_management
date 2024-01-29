@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Borrowing History: </h2>
+  {% for book in borrowing_history %}
+    <div>
+      <h3>{{ book.title }}</h3>
+      <p>Price: ${{ book.borrowing_price }}</p>
+      <p>Borrowed on: {{ book.timestamp }}</p>
+    </div>
+  {% endfor %}
+
+  <div>
+    <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit Your Profile</a>
+  </div>
+{% endblock %}

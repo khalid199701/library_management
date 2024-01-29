@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="d-flex flex-wrap px-5 pt-3 align-items-center">
+    <div class="col-6">
+        <h1>Welcome to BookHouse</h1>
+        <p>Lorem Ipsum is simply dummy 
+            text of the printing and typesetting industry. 
+            Lorem Ipsum has been the industry's standard 
+            dummy text ever since the 1500s, when an unknown 
+            printer took a galley of type and scrambled it to
+            make a type specimen book. It has survived not only
+            five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged.
+        </p>
+    </div>
+    <div class="col-6">
+        <img src="{% static "lib.jpg" %}"/>
+    </div>
+</div>
+<h5 class="px-5 pt-3">Current Category Available Here</h5>
+<div class="p-4 m-4">
+    {% for category in category %}
+        <a href="{% url 'category_wise_book' category.slug %}" class="btn btn-secondary text-decoration-none text-light me-2">{{category.name}}</a>
+    {% endfor %}
+</div>
+<div class="d-flex flex-wrap p-4 m-4">
+    <h4>{{data | length}} results found</h4>
+    <div class="d-flex flex-wrap">
+        {% for post in data %}
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card mx-2 ">
+                    <div class="card-body">
+                        <img src="{{post.image.url}}" class="card-img-top" alt="...">
+                        <h5 class="card-title"><a class='text-decoration-none text-dark' href="{% url 'detail_book' post.id%}">{{post.title}}</a></h5>
+                        <p class="card-text">{{post.description | truncatewords:10}}</p>
+                        <p>
+                            {% for i in post.category.all %}
+                                
+                                <button class="btn btn-primary btn-sm m-2" disabled>{{i.title}}</button>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

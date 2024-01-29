@@ -1,0 +1,52 @@
+{% extends "base.html" %} 
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-12 mb-3 mb-sm-0">
+  <div class="card mx-2">
+    <div class="card-body">
+      <img src="{{book.image.url}}" class="card-img-top" alt="..." style="width:50%;" />
+      <h1 class="card-title">{{book.title}}</h1>
+      <p class="card-text">{{book.description}}</p>
+      <p>Price : {{book.borrowing_price}}</p>
+      <p>
+        Brand: {{book.category}}
+      </p>
+      {% if request.user.is_authenticated %}
+        <form method="post" action="{% url 'borrow_book' book.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Borrow Now</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class="card m-2">
+  <h5 class="p-3">Total Reviews : {{reviews | length}}</h5>
+  {% for review in reviews %}
+    <div class="card-body border m-2">
+      <p><b>{{review.name}}</b></p>
+      <p>{{review.body}}</p>
+    </div>
+    {% endfor %}
+</div>
+<div class="card m-2">
+  <div class="card-body">
+      <form method = "post">
+        <h1>Add Review</h1>
+        {% csrf_token %}
+        {{review_form | crispy}} 
+        <button class="btn btn-warning">Submit</button>
+      </form> 
+  </div>
+</div>
+{% comment %} <div class="card m-2">
+  <div class="card-body">
+      <form method = "post">
+        <h1>Add Comment</h1>
+        {% csrf_token %}
+        {{comment_form | crispy}} 
+        <button class="btn btn-warning">Submit</button>
+      </form> 
+  </div>
+</div> {% endcomment %}
+{% endblock content %}   

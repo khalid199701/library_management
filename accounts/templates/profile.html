@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Borrowed Books: </h2>
+  {% csrf_token %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Genre</th>
+        <th scope="col">Return</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for book in book %}
+    <tr>
+      <th scope='row'>{{ book.title }}</th>
+      <td>Description: {{ book.description }}</td>
+      <td>Price: {{ book.borrowing_price }}</td>
+      <td>Genre: {{ book.category }}</td>
+      <td><a class="btn btn-success" href="{% url 'return_book' id=book.id %}">Return Book</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    <div>
+      <h4>Your Balance: ${{ user_balance }}</h4>
+      <a class="btn btn-primary" href="{% url 'borrowing_history' %}">Your borrowing History</a>
+        <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit Your Profile</a>
+    </div>
+{% endblock %}
